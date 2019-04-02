@@ -62,7 +62,7 @@ int main(int ac, char **av)
 				return (5);
 	tab[0] = ".#..";
 	tab[1] = "###.";
-	tab[2] = "..";
+	tab[2] = "....";
 	tab[3] = "....";
 	ft_check_shape(tab);
 	printf("%d", ft_check_shape(tab));
