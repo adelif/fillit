@@ -1,17 +1,70 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_save_hash_position.c                            :+:      :+:    :+:   */
+/*   ft_place_hash.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dfelissa <dfelissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 22:32:38 by dfelissa          #+#    #+#             */
-/*   Updated: 2019/04/16 14:43:03 by dfelissa         ###   ########.fr       */
+/*   Updated: 2019/04/18 18:50:19 by dfelissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <stdio.h>
+
+static int		ft_check_symbol_nb(char *line)
+{
+	int		i;
+	int		p;
+	int		d;
+
+	i = 0;
+	p = 0;
+	d = 0;
+	while (line[i])
+	{
+		if (line[i] == '.')
+			p++;
+		if (line[i] == '#')
+			d++;
+		i++;
+	}
+	if (p == 12 && d == 4)
+		return (0);
+	return (-1);
+}
+
+static int		ft_check_shape(char **tab)
+{
+	int			i;
+	int			j;
+	int			s;
+
+	j = 0;
+	i = 0;
+	s = 0;
+	while (j < 4)
+	{
+		while ((i <= 3) && (tab[j][i]))
+		{
+			if ((i < 3) && tab[j][i] == '#' && tab[j][i + 1] == '#')
+				s++;
+			if ((i > 0) && tab[j][i] == '#' && tab[j][i - 1] == '#')
+				s++;
+			if ((j > 0) && tab[j][i] == '#' && tab[j - 1][i] == '#')
+				s++;
+			if ((j < 3) && tab[j][i] == '#' && tab[j + 1][i] == '#')
+				s++;
+			i++;
+		}
+		i = 0;
+		j++;
+	}
+	if (s == 6 || s == 8)
+		return (1);
+return (-1);
+}
 
 int		*ft_save_position(char **tab)
 {
@@ -43,41 +96,34 @@ int		*ft_save_position(char **tab)
 	return (save);
 }
 
-char	**ft_place_hash(int *save, char **tab)
+int	ft_place_hash(int *save, char **tab)
 {
 	int	i;
 	int	j;
 	int	x;
-	int	ord;
+	int	y;
 	int	abs;
 	char **newtab;
 
 	newtab = malloc(sizeof(char*) * 4);
-	i = 0;
 	j = 0;
-	x = 0;
-	while (i < 8)
+	y = 0;
+	i = 1;
+	while (i < 8 && j < 8)
 	{
-		if (save[i] == 0 && save[i++] == 0)
+		/*if (save[j] == 0 && save[i] == 0)
 		{
 				newtab = tab;
 				printf("newtab 0 -> %s\nnewtab 1 ->%s\n%s\n%s\n", newtab[0], newtab[1], newtab[2], newtab[3]);
 				return (newtab);
-		}
-		if (save[i] != 0 && tab[ord][abs])
-			while (save[i*2] > 0 && i < 4)
-			{
-				ord--;
-				x--;
-				printf("x -> %d\n", x);
-				newtab[i][j] = tab[ord - (x)][abs];
-			}
-		i++;
-		abs++;
-		printf("newtab 0 -> %s\nnewtab 1 ->%s\n%s\n%s\n", newtab[0], newtab[1], newtab[2], newtab[3]);
-		return (newtab);
-		}
-	return (0);
+		}*/
+	while (i < 8)	
+		if (save[i] < save[i +=2])
+			y = save[i];
+		printf("%d\n", y);
+	/*	printf("newtab 0 -> %s\nnewtab 1 ->%s\n%s\n%s\n", newtab[0], newtab[1], newtab[2], newtab[3]);*/
+	}
+	return (y);
 }
 
 int		main()
@@ -85,10 +131,12 @@ int		main()
 	char **tab;
 
 	tab = malloc(sizeof(char*) * 4);
-	tab[0] = "....";
-	tab[1] = "....";
-	tab[2] = "##..";
-	tab[3] = "##..";
+	tab[0] = "..#.";
+	tab[1] = ".###";
+	tab[2] = "....";
+	tab[3] = "....";
+	ft_check_shape(tab);
+	printf("%d\n", ft_check_shape(tab));
 	ft_save_position(tab);
 	ft_place_hash(ft_save_position(tab), tab);
 	return (0);
