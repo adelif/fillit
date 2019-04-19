@@ -6,7 +6,7 @@
 /*   By: dfelissa <dfelissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 22:32:38 by dfelissa          #+#    #+#             */
-/*   Updated: 2019/04/19 16:56:51 by dfelissa         ###   ########.fr       */
+/*   Updated: 2019/04/19 18:03:14 by dfelissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,12 +70,16 @@ int	*ft_push_upleft(int *save, int x)
 	i = 1;
 	if (!(newabs = (int*)malloc(sizeof(int) * 8 + 1)))
 		return (NULL);
-	while (save[i] && i <= 5)
+	while (save [i] && i <= 5)
 	{
-		newabs[i] = save[i] - x;
+			newabs[i] == (save[i] - x);
+			printf("%d\n", i);
+			printf("%d\n", newabs[i]);
 	}
+/*		printf("%d\n", i);
+		printf("%d\n", newabs[i]);*/
 	i += 2;
-/*	printf("nw 1 ->%d\nnw2 ->%d\n%d\n%d\n", newabs[1], newabs[3], newabs[5], newabs[7]);*/
+/*		printf("nw 1 ->%d\nnw2 ->%d\n%d\n%d\n", newabs[1], newabs[3], newabs[5], newabs[7]);*/
 	return (newabs);
 }
 
