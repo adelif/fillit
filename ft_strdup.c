@@ -6,11 +6,11 @@
 /*   By: dfelissa <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/20 13:08:29 by dfelissa          #+#    #+#             */
-/*   Updated: 2018/12/20 13:29:56 by dfelissa         ###   ########.fr       */
+/*   Updated: 2019/04/20 00:44:10 by dfelissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "./libft/libft.h"
 
 char	*ft_strdup(const char *s)
 {

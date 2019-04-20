@@ -1,19 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_place_hash.c                                    :+:      :+:    :+:   */
+/*   ft_push_upleft.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dfelissa <dfelissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 22:32:38 by dfelissa          #+#    #+#             */
-/*   Updated: 2019/04/19 18:03:14 by dfelissa         ###   ########.fr       */
+/*   Updated: 2019/04/20 14:24:55 by dfelissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "./libft/libft.h"
 #include <stdlib.h>
 #include <stdio.h>
 
-int		*ft_save_position(char **tab)
+int		*ft_save_position(char **tab)/* fonction qui sauvegarde les coordonées initiales du tétri*/
 {
 	int	i;
 	int	abs;
@@ -43,10 +44,9 @@ int		*ft_save_position(char **tab)
 	return (save);
 }
 
-int		ft_abs_min(int *save)
+int		ft_abs_min(int *save) /* fct° qui rechercher la plus petite abscisse*/
 {
 	int	i;
-	int	j;
 	int	x;
 
 	i = 1;
@@ -58,52 +58,73 @@ int		ft_abs_min(int *save)
 		else
 			x = x;
 	}
-	printf("%d\n", x);
+	printf("x  = %d\n", x);
 	return (x);
 }
 
-int	*ft_push_upleft(int *save, int x)
+int	*ft_push_upleft(int *save, int x) /* fct qui donne les coordonées théorique le + en haut à gauche*/
 {
 	int	i;
-	int	*newabs;
+	int	y;
 
 	i = 1;
-	if (!(newabs = (int*)malloc(sizeof(int) * 8 + 1)))
-		return (NULL);
-	while (save [i] && i <= 5)
+	while (i <= 7)
 	{
-			newabs[i] == (save[i] - x);
-			printf("%d\n", i);
-			printf("%d\n", newabs[i]);
+			save[i] -= x;
+			i += 2;
 	}
-/*		printf("%d\n", i);
-		printf("%d\n", newabs[i]);*/
+	i = 0;
+	y = 0;
+	while (save[i] > 0)
+	{
+		y++;
+		save[i] -= 1;
+	}
 	i += 2;
-/*		printf("nw 1 ->%d\nnw2 ->%d\n%d\n%d\n", newabs[1], newabs[3], newabs[5], newabs[7]);*/
-	return (newabs);
+	while (i <= 6)
+	{
+		save[i]	-= y;
+		i += 2;
+	}
+	return (save);
 }
 
-/*	while (i < 8 && j < 8)
+char		**ft_replace_hash(int *save, char **tab) /* fct° qui met des hashtag aux coordonées le plus en haut à gauche*/
 {
-	if (save[j] == 0 && save[i] == 0)
-	{
-		newtab = tab;
-		printf("newtab 0 -> %s\nnewtab 1 ->%s\n%s\n%s\n", newtab[0], newtab[1], newtab[2], newtab[3]);
-		return (newtab);
-	}
-}*/
+	int	i;
+	int	j;
+	char	**newtab;
+	char	*str;
 
+	str = "....";
+	i = 0;
+	if (!(newtab=(char**)malloc(sizeof(char *) * 4 + 1)))
+		return (NULL);
+	while (i < 4)
+	{
+		newtab[i] = ft_strdup(str);
+		i++;
+	}
+	i = 0;
+	j = 1;
+	while (i <= 6 && j <= 7)
+	{
+		newtab[save[i]][save[j]] = '#';
+		i += 2;
+		j += 2;
+	}
+	printf("newtab 0 ->%s\nnewtab 1 ->%s\nnewtab 2 ->%s\nnewtab 3 ->%s\n", newtab[0], newtab[1], newtab[2], newtab[3]);
+	return (newtab);
+}
 int			main()
 {
 	char	**tab;
 
 	tab = malloc(sizeof(char*) * 4);
 	tab[0] = "....";
-	tab[1] = "##..";
-	tab[2] = ".#..";
-	tab[3] = ".#..";
-	ft_save_position(tab);
-	ft_abs_min(ft_save_position(tab));
-	ft_push_upleft(ft_save_position(tab), ft_abs_min(ft_save_position(tab)));
+	tab[1] = "..##";
+	tab[2] = "...#";
+	tab[3] = "...#.";
+	ft_replace_hash(ft_push_upleft(ft_save_position(tab), ft_abs_min(ft_save_position(tab))),tab);
 	return (0);
 }
